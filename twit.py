@@ -3,6 +3,7 @@ import os
 
 from twitter import TwitterStream, OAuth, Twitter
 
+
 class Markov(object):
     def __init__(self, chain_size=3):
         self.chain_size = chain_size
@@ -25,7 +26,7 @@ class Markov(object):
 
     def database(self, tweet):
         for chain_set in self.chains(tweet):
-            key = chain_set[:self.chain_size -1]
+            key = chain_set[:self.chain_size - 1]
             next_word = chain_set[-1]
             if key in self.cache:
                 self.cache[key].append(next_word)
