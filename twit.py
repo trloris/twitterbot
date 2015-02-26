@@ -65,7 +65,7 @@ class Markov(object):
 
         return gen_words[:15]
 
-auth - OAuth(
+auth = OAuth(
     consumer_key=os.environ['CONSUMER_KEY'],
     consumer_secret=os.environ['CONSUMER_SECRET'],
     token=os.environ['TOKEN'],
