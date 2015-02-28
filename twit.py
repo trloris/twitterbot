@@ -6,7 +6,7 @@ from twitter import TwitterStream, OAuth, Twitter
 
 class Markov(object):
     def __init__(self, chain_size=3):
-        self.chain_size = chain_size
+        self.chain_size = chain_size  # Markov chain length
         self.cache = {}
         self.tweet_size = 0
         self.words = []
@@ -28,8 +28,10 @@ class Markov(object):
         for chain_set in self.chains(tweet):
             key = chain_set[:self.chain_size - 1]
             next_word = chain_set[-1]
+            # Add word to dict if tuple exists in cache
             if key in self.cache:
                 self.cache[key].append(next_word)
+            # Create new entry in dict if it doesn't
             else:
                 self.cache[key] = [next_word]
 
@@ -82,14 +84,17 @@ t = Twitter(auth=auth)
 
 for tweet in twitter_stream.statuses.sample():
     try:
+        # Ignore any non-English tweets and retweets
         if tweet['lang'] == 'en' and tweet['text'][:2] != 'RT':
             tweet_count += 1
             markov.add_tweet(tweet['text'])
             if tweet_count == 10000:
+                # Limit tweets to Twitter's 140 character limit
                 status = ' '.join(markov.generate_markov_text())[:140]
                 t.statuses.update(status=status)
                 tweet_count = 0
                 markov = Markov()
 
+    # Not everything in public stream is a tweet and may lack a lang attribute.
     except KeyError as e:
         pass
