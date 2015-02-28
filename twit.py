@@ -45,7 +45,7 @@ class Markov(object):
             chain.append(self.words[i + chain_index])
         return chain
 
-    def generate_markov_text(self, size=1):
+    def generate_markov_text(self):
         size = self.tweet_size
         seed = random.randint(0, self.tweet_size - self.chain_size)
         seed_words = self.words_at_position(seed)[:-1]
